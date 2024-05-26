@@ -2,18 +2,66 @@
 
 <PageTitle>Home</PageTitle>
 
-<EditForm Model="FileInput" enctype="multipart/form-data" FormName="UploadFileEditForm">
+@* Common upload form method,the <input /> type must be CSharp code IFormFile "File" Lower Case name *@
+<form method="post" enctype="multipart/form-data"
+    @formname="UploadFileForm" @onsubmit="UploadFile">
+    <AntiforgeryToken />
+    <input type="file" name="file" class="form-control" /> 
+    <button type="submit" class="btn btn-primary mt-2">Upload</button>
+</form>
+
+@* 使用 EditForm Components 上傳的檔案 *@
+@* 
+<EditForm Model="FileInput" enctype="multipart/form-data" FormName="UploadFileEditForm" OnSubmit="UploadFile">
     <InputFile name="FileInput.File" class="form-control" />
     <button type="submit" class="btn btn-primary mt-2">Upload</button>
-</EditForm>
+</EditForm> 
+*@
+
+<span>@resultMessage</span>
 
 @code{
     [SupplyParameterFromForm(FormName = "UploadFileEditForm")]
     FileModel FileInput { get; set; } = new();
+    [SupplyParameterFromForm(FormName = "UploadFileForm")]
+    IFormFile File { get; set; }
 
+    string resultMessage = string.Empty;
+
+    /// <summary>
+    /// Uploaded file to the server
+    /// </summary>
+    /// <returns></returns>
     async Task UploadFile()
     {
-        
+        try
+        {
+            if (File is null)
+                throw new Exception("File not found!!");
+
+            var folderPath = Path.Combine(".\\Files");
+
+            // Razor Component method 會在編譯時將文件名稱轉換為小寫，所以在這裡使用 FileInput.File.FileName
+            // var filePath = Path.Combine(folderPath, FileInput.File.FileName);
+
+            // Common upload form method
+            var filePath = Path.Combine(folderPath, File.FileName);
+
+            // 避免在寫入文件時出現 "路徑不存在" 的錯誤
+            Directory.CreateDirectory(folderPath); 
+
+            // 使用 FileMode.Create 打開文件時，如果文件已存在，系統會刪除原有文件，然後創建一個新的空文件
+            await using var fileStream = new FileStream(filePath, FileMode.Create);
+
+            await File.CopyToAsync(fileStream);
+
+            resultMessage = "File uploaded successfully!";
+        }
+
+        catch (Exception ex)
+        {
+            resultMessage = ex.Message;
+        }
     }
 
     class FileModel
