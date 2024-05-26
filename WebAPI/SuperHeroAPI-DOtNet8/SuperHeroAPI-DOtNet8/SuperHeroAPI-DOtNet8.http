@@ -1,0 +1,16 @@
+@SuperHeroAPI-DotNet8_HostAddress = https://localhost:7019
+@SuperHeroAPI_DOtNet8_HostAddress = http://localhost:5290
+
+
+GET {{SuperHeroAPI-DotNet8_HostAddress}}/api/superhero
+
+###
+
+POST {{SuperHeroAPI-DotNet8_HostAddress}}/api/superhero
+Content-Type: application/json
+
+{
+  //SuperHero
+}
+
+###

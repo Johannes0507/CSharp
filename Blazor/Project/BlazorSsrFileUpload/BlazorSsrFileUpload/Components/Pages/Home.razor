@@ -1,0 +1,23 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<EditForm Model="FileInput" enctype="multipart/form-data" FormName="UploadFileEditForm">
+    <InputFile name="FileInput.File" class="form-control" />
+    <button type="submit" class="btn btn-primary mt-2">Upload</button>
+</EditForm>
+
+@code{
+    [SupplyParameterFromForm(FormName = "UploadFileEditForm")]
+    FileModel FileInput { get; set; } = new();
+
+    async Task UploadFile()
+    {
+        
+    }
+
+    class FileModel
+    {
+        public IFormFile File { get; set; }
+    }
+}

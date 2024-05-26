@@ -1,0 +1,92 @@
+﻿@page "/todoapp"
+@using System.Text.Json
+@inject IJSRuntime JsRuntime
+
+<h3>Todo</h3>
+
+<p>
+    <input @bind="newNotes"/>&nbsp;
+    <button @onclick="addNewNotes">Add Notes</button>
+</p>
+
+@foreach (var note in notes)
+{
+    <p>
+        <b>*@note.description</b>&nbsp;
+        <button @onclick="(()=>deleteNotes(note.id))">Delete Notes</button>
+    </p>
+}
+
+
+@code {
+    public string newNotes = "";
+    // 定義Notes類，包含id和description屬性
+    public class Notes
+    {
+        public int id { get; set; }
+        public string description { get; set; }
+    }
+
+    // API的基本URL
+    string API_URL = "http://localhost:5021/";
+
+    // 初始化一個空的Notes集合
+    private IEnumerable<Notes> notes = Array.Empty<Notes>(); 
+
+    // 定義一個異步方法用於從後端API獲取所有待辦事項並刷新列表
+    private async Task refreshList()
+    {
+        HttpClient httpClient = new HttpClient();
+        // 請求後端API以獲取所有待辦事項
+        HttpResponseMessage response = await httpClient.GetAsync(API_URL + "api/TodoApp/GetNotes");
+        httpClient.Dispose();
+        // 讀取響應內容流
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+        // 將JSON反序列化為Notes對象集合
+        notes = await JsonSerializer.DeserializeAsync<IEnumerable<Notes>>(responseStream);
+    }
+
+    // 在組件初始化時調用refreshList方法
+    protected override async Task OnInitializedAsync()
+    {
+        await this.refreshList();
+    }
+
+    // 定義一個異步方法用於添加新的待辦事項
+    private async Task addNewNotes()
+    {
+        var formData = new MultipartFormDataContent();
+        // 將新待辦事項文本添加到表單數據中
+        formData.Add(new StringContent(newNotes), "newNotes");
+
+        HttpClient httpClient = new HttpClient();
+        // 向後端API發送新增待辦事項的請求
+        HttpResponseMessage response = await httpClient.PostAsync(API_URL + "api/TodoApp/AddNotes", formData);
+        httpClient.Dispose();
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+
+        // 獲取響應結果作為字符串
+        string res = response.Content.ReadAsStringAsync().Result;
+        // 顯示新增結果的提示信息
+        await JsRuntime.InvokeVoidAsync("alert", res);
+        // 刷新待辦事項列表
+        await this.refreshList();
+    }
+
+    // 定義一個異步方法用於刪除指定id的待辦事項
+    private async Task deleteNotes(int id)
+    {
+        HttpClient httpClient = new HttpClient();
+        // 向後端API發送刪除特定待辦事項的請求
+        HttpResponseMessage response = await httpClient.DeleteAsync(API_URL + "api/TodoApp/DeleteNotes?id=" + id);
+        httpClient.Dispose();
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+
+        // 獲取響應結果作為字符串
+        string res = response.Content.ReadAsStringAsync().Result;
+        // 顯示刪除結果的提示信息
+        await JsRuntime.InvokeVoidAsync("alert", res);
+        // 刷新待辦事項列表
+        await this.refreshList();
+    }
+}
