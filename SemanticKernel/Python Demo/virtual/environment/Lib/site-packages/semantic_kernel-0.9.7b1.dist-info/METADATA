@@ -1,0 +1,92 @@
+Metadata-Version: 2.1
+Name: semantic-kernel
+Version: 0.9.7b1
+Summary: Semantic Kernel Python SDK
+Author: Microsoft
+Author-email: SK-Support@microsoft.com
+Requires-Python: >=3.10,<3.13
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: all
+Provides-Extra: azure
+Provides-Extra: chromadb
+Provides-Extra: google
+Provides-Extra: hugging-face
+Provides-Extra: milvus
+Provides-Extra: notebooks
+Provides-Extra: pinecone
+Provides-Extra: postgres
+Provides-Extra: qdrant
+Provides-Extra: redis
+Provides-Extra: usearch
+Provides-Extra: weaviate
+Requires-Dist: aiohttp (>=3.8,<4.0)
+Requires-Dist: azure-core (>=1.28.0,<2.0.0) ; extra == "azure" or extra == "all"
+Requires-Dist: azure-identity (>=1.13.0,<2.0.0) ; extra == "azure" or extra == "all"
+Requires-Dist: azure-search-documents (==11.6.0b1) ; extra == "azure" or extra == "all"
+Requires-Dist: chromadb (>=0.4.13,<0.5.0) ; extra == "chromadb" or extra == "all"
+Requires-Dist: defusedxml (>=0.7.1,<0.8.0)
+Requires-Dist: eval_type_backport (>=0.1.3,<0.2.0) ; python_version < "3.10"
+Requires-Dist: google-generativeai (>=0.1) ; (python_version >= "3.9") and (extra == "google" or extra == "all")
+Requires-Dist: grpcio (>=1.40.0) ; python_version == "3.8"
+Requires-Dist: grpcio (>=1.50.0) ; python_version >= "3.9"
+Requires-Dist: grpcio (>=1.60.0) ; python_version >= "3.12"
+Requires-Dist: grpcio-status (>=1.53.0,<2.0.0) ; (python_version >= "3.9") and (extra == "google" or extra == "all")
+Requires-Dist: ipykernel (>=6.21.1,<7.0.0) ; extra == "notebooks" or extra == "all"
+Requires-Dist: jinja2 (>=3.1.3,<4.0.0)
+Requires-Dist: milvus (>=2.2,<2.3) ; (python_version == "3.8" and sys_platform != "win32") and (extra == "milvus" or extra == "all")
+Requires-Dist: milvus (>=2.3,<2.3.8) ; (python_version > "3.8" and sys_platform != "win32") and (extra == "milvus" or extra == "all")
+Requires-Dist: motor (>=3.3.2,<4.0.0)
+Requires-Dist: nest-asyncio (>=1.6.0,<2.0.0)
+Requires-Dist: numpy (>=1.24,<2.0) ; python_version == "3.8"
+Requires-Dist: numpy (>=1.25) ; python_version >= "3.9" and python_version < "3.12"
+Requires-Dist: numpy (>=1.26) ; python_version >= "3.12"
+Requires-Dist: openai (>=1.0)
+Requires-Dist: openapi_core (>=0.18,<0.20)
+Requires-Dist: pinecone-client (>=2.2.2,<3.0.0) ; extra == "pinecone" or extra == "all"
+Requires-Dist: prance (>=23.6.21.0,<24.0.0.0)
+Requires-Dist: psycopg[binary,pool] (>=3.1.9,<4.0.0) ; extra == "postgres" or extra == "all"
+Requires-Dist: pyarrow (>=12.0.1,<16.0.0) ; extra == "usearch" or extra == "all"
+Requires-Dist: pybars4 (>=0.9.13,<0.10.0)
+Requires-Dist: pydantic (>=2,<3)
+Requires-Dist: pymilvus (>=2.2,<2.3) ; (python_version == "3.8") and (extra == "milvus" or extra == "all")
+Requires-Dist: pymilvus (>=2.3,<2.3.8) ; (python_version > "3.8") and (extra == "milvus" or extra == "all")
+Requires-Dist: python-dotenv (>=1.0.1,<2.0.0)
+Requires-Dist: qdrant-client (>=1.6,<2.0) ; (python_version == "3.8") and (extra == "qdrant" or extra == "all")
+Requires-Dist: qdrant-client (>=1.7) ; (python_full_version > "3.9.0") and (extra == "qdrant" or extra == "all")
+Requires-Dist: redis (>=4.6.0,<5.0.0) ; extra == "redis" or extra == "all"
+Requires-Dist: regex (>=2023.6.3,<2024.0.0)
+Requires-Dist: scipy (>=1.12.0) ; python_version >= "3.12"
+Requires-Dist: scipy (>=1.5.0) ; python_version < "3.12"
+Requires-Dist: sentence-transformers (>=2.2.2,<3.0.0) ; extra == "hugging-face" or extra == "all"
+Requires-Dist: torch (>=2.2.0,<3.0.0) ; extra == "hugging-face" or extra == "all"
+Requires-Dist: transformers (>=4.28.1,<5.0.0) ; extra == "hugging-face" or extra == "all"
+Requires-Dist: usearch (>=2.9,<3.0) ; extra == "usearch" or extra == "all"
+Requires-Dist: weaviate-client (>=3.18,<5.0) ; extra == "weaviate" or extra == "all"
+Description-Content-Type: text/markdown
+
+# About Semantic Kernel
+
+**Semantic Kernel (SK)** is a lightweight SDK enabling integration of AI Large
+Language Models (LLMs) with conventional programming languages. The SK
+extensible programming model combines natural language **semantic functions**,
+traditional code **native functions**, and **embeddings-based memory** unlocking
+new potential and adding value to applications with AI.
+
+Semantic Kernel incorporates cutting-edge design patterns from the latest in AI
+research. This enables developers to augment their applications with advanced
+capabilities, such as prompt engineering, prompt chaining, retrieval-augmented
+generation, contextual and long-term vectorized memory, embeddings,
+summarization, zero or few-shot learning, semantic indexing, recursive
+reasoning, intelligent planning, and access to external knowledge stores and
+proprietary data.
+
+# Getting Started ⚡
+
+- Learn more at the [documentation site](https://aka.ms/SK-Docs).
+- Join the [Discord community](https://aka.ms/SKDiscord).
+- Follow the team on [Semantic Kernel blog](https://aka.ms/sk/blog).
+- Check out the [GitHub repository](https://github.com/microsoft/semantic-kernel) for the latest updates.
+
