@@ -1,0 +1,3 @@
+# 暫時對 SKEXP0050 警告停用 - .NET | Microsoft Docs
+[*.{cs,vb}]
+dotnet_diagnostic.SKEXP0050.severity = none

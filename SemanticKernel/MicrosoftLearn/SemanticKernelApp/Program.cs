@@ -1,6 +1,15 @@
-﻿
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Plugins.Core;
+using SemanticKernelApp;
+
+// Load configuration from appsettings.json
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+// Get AzureOpenAIOptions from appsettings.json
+var azureOpenAIOptions = configuration.GetSection("AzureOpenAI").Get<AzureOpenAIOptions>();
 
 # region Test to Connect AzureOpenAi API  
 // // Create kernel
@@ -20,20 +29,22 @@ using Microsoft.SemanticKernel.Plugins.Core;
 // Console.WriteLine(result);
 #endregion
 
-// #region TimePlugin
+#region TimePlugin Sample
 // Sementic Kernel TimePlugin Sample
 var kernelBuilder = Kernel.CreateBuilder();
 
 kernelBuilder.Services.AddAzureOpenAIChatCompletion(
-    "Semantic-Kernel_Test",
-    "https://semantickernel.openai.azure.com/",
-    "2bc304e82df5497486d08f9b67cede41",
-    "gpt-35-turbo-16k");
-
+    azureOpenAIOptions.ResourceName,
+    azureOpenAIOptions.Endpoint,
+    azureOpenAIOptions.ApiKey,
+    azureOpenAIOptions.DeploymentModel
+    );
 kernelBuilder.Plugins.AddFromType<TimePlugin>();
+
 var kernel = kernelBuilder.Build();
+
 var currentDay = await kernel.InvokeAsync("TimePlugin", "DayOfWeek");
 Console.WriteLine(currentDay);
 
-
+#endregion
 
