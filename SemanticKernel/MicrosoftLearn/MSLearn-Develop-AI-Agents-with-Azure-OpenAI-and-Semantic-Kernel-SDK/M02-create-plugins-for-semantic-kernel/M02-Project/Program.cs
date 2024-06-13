@@ -1,9 +1,10 @@
 ﻿using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Plugins.Core;
 
 string yourDeploymentName = "Semantic-Kernel_Test";
 string yourEndpoint = "https://semantickernel.openai.azure.com/";
-string yourKey = "";
+string yourKey = "2bc304e82df5497486d08f9b67cede41";
 
 var builder = Kernel.CreateBuilder();
 builder.Services.AddAzureOpenAIChatCompletion(
@@ -16,6 +17,7 @@ builder.Services.AddAzureOpenAIChatCompletion(
 builder.Plugins.AddFromType<ConversationSummaryPlugin>();
 var kernel = builder.Build();
 
+#region Basic Protice
 #region ConversationSummaryPlugin Basic Usage
 // // Setting the prompt
 // string input = @"I'm a vegan in search of new recipes. 
@@ -29,7 +31,6 @@ var kernel = builder.Build();
 
 // Console.WriteLine(result);
 #endregion
-
 
 #region ConversationSummary Add User Background
 // string history = @"In the heart of my bustling kitchen, I have embraced 
@@ -58,7 +59,6 @@ var kernel = builder.Build();
 // Console.WriteLine(result);
 #endregion
 
-
 #region (Advanced Usage) <message role=""> with assistant、user 
 // string input = @"I'm planning an anniversary trip with my 
 //     spouse. We like hiking, mountains, and beaches. Our 
@@ -82,7 +82,6 @@ var kernel = builder.Build();
 // var result = await kernel.InvokePromptAsync(prompt);
 // Console.WriteLine(result);
 #endregion
-
 
 #region (Advanced Usage) <message role=""> with assistant、user、system
 
@@ -109,5 +108,35 @@ var kernel = builder.Build();
 // Console.WriteLine(result);
 
 #endregion
+#endregion
 
+#region Travel Assistant (main)
+var prompts = kernel.ImportPluginFromPromptDirectory("Prompts/TravelPlugins");
 
+ChatHistory history = [];
+string input = @"I'm planning an anniversary trip with my spouse.
+    We like hiking, mountains, and beaches. 
+    Our travel budget is $15000.";
+
+var result = await kernel.InvokeAsync<string>(prompts["SuggestDestinations"],
+    new() {
+        { "input", input },
+    }
+);
+
+Console.WriteLine(result);
+history.AddUserMessage(input);
+history.AddAssistantMessage(result);
+
+Console.WriteLine("Where would you like to go?");
+input = Console.ReadLine();
+
+result = await kernel.InvokeAsync<string>(prompts["SuggestActivites"],
+    new() {
+        { "history", history },
+        { "destination", input }
+    }
+);
+
+Console.WriteLine(result);
+#endregion
