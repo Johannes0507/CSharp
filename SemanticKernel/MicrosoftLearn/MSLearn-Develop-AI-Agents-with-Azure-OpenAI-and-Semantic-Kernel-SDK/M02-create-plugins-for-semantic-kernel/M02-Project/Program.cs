@@ -4,7 +4,7 @@ using Microsoft.SemanticKernel.Plugins.Core;
 
 string yourDeploymentName = "Semantic-Kernel_Test";
 string yourEndpoint = "https://semantickernel.openai.azure.com/";
-string yourKey = "2bc304e82df5497486d08f9b67cede41";
+string yourKey = "";
 
 var builder = Kernel.CreateBuilder();
 builder.Services.AddAzureOpenAIChatCompletion(
