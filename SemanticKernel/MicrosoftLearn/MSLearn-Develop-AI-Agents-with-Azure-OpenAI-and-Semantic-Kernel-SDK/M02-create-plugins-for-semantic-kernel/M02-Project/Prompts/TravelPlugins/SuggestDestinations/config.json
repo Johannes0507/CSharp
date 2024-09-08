@@ -1,0 +1,18 @@
+{
+    "scheme": 1,
+    "type": "completion",
+    "description": "Recommend travel destinations to the user",
+    "execution_settings": {
+        "default": {
+            "max_token": 1200,
+            "temperature": 0.3
+        }
+    },
+    "input_variables":[
+        {
+            "name": "input",
+            "description": "Details about the user's travel plans",
+            "required": true
+        }
+    ]
+}
